@@ -53,6 +53,7 @@ class ExamplesTest(unittest.TestCase):
                                             test_scad_file.as_posix()])
             # make sure there's no diff
             self.assertEqual(diff.decode(), "")
+
             # render with openscad
             subprocess.check_call([get_openscad_executable(), "-o",
                                    test_scad_file.with_suffix(".png"),

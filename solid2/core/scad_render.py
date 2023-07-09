@@ -31,13 +31,15 @@ def render_to_stl_file(root, filename):
 
     return Path(filename).absolute().as_posix()
 
-def scad_render(root, file_header = ''):
+def scad_render(root, file_header = '', strip=False):
     #get a list of all used and included files
     includes = get_include_string()
 
     #call extensions pre_render
     from .extension_manager import default_extension_manager
     extensions_header_str = default_extension_manager.call_pre_render(root)
+    if strip:
+        extensions_header_str = extensions_header_str.strip()
     extensions_header_str += "\n" if extensions_header_str else ''
 
     #wrap the extensions around the root node
@@ -47,6 +49,8 @@ def scad_render(root, file_header = ''):
 
     #call extensions post_render
     extensions_footer_str = default_extension_manager.call_post_render(root)
+    if strip:
+        extensions_footer_str = extensions_footer_str.strip()
     extensions_footer_str += "\n" if extensions_footer_str else ''
 
     return file_header + includes + extensions_header_str + scad_body \
@@ -100,4 +104,3 @@ def get_include_string():
     s += "\n\n" if s else ''
 
     return s
-
