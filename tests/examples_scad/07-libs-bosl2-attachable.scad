@@ -36,7 +36,7 @@ attachable(anchor = CENTER, orient = UP, size = [300, 100, 100], spin = 0) {
 		xcopies(spacing = 200) {
 			cube(center = true, size = 100);
 		}
-		xcyl(d = 25.0000000000, h = 200);
+		xcyl(d = 25.0, h = 200);
 	}
 	union() {
 		attach(from = TOP) {

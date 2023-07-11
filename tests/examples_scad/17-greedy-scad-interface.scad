@@ -13,11 +13,11 @@ cube_color = "blue"; //[red, green, blue]
 anim_factor = 1; //[1:0.5:10]
 
 union() {
-	color(alpha = 1.0000000000, c = cube_color) {
+	color(alpha = 1.0, c = cube_color) {
 		cube(center = true, size = abs(sin((($t * 360) * anim_factor))));
 	}
 	translate(v = [0, -2, 0]) {
-		color(alpha = 1.0000000000, c = cube_color) {
+		color(alpha = 1.0, c = cube_color) {
 			sphere(r = abs(sin(((($t * 360) * anim_factor) - 90))));
 		}
 	}
