@@ -1,110 +1,37 @@
-from decimal import Decimal
-from solid2 import scad_inline as i
-from solid2.core.object_base.object_base_impl import OpenSCADConstant
 
-def _encode(var):
-    if type(var) in (list, tuple):
-        return ''.join([
-            '[',
-            ', '.join([
-                _encode(item)
-                for item in var
-            ]),
-            ']',
-        ])
-    elif type(var) in (int, float, Decimal, OpenSCADConstant):
-        return str(var)
-    elif type(var) is str:
-        return f'"{var}"'
-    else:
-        raise Exception(f"Can't handle variable type {type(var)} for {var}")
+def _base_fn(name, *args):
+    from solid2.core.object_base import scad_inline as scad_inline
+    from solid2.core.utils import py2openscad as py2openscad
 
-def _convert(array):
-    return _encode(array)[1:-1]
+    params = py2openscad(args)[1:-1]
+    return scad_inline(f'{name}({params})')
 
-def _convert_vector(v):
-    return _encode(v)
+def cos(n):         return _base_fn("cos", n)
+def sin(n):         return _base_fn("sin", n)
+def tan(n):         return _base_fn("tan", n)
+def acos(n):        return _base_fn('acos', n)
+def asin(n):        return _base_fn('asin', n)
+def atan(n):        return _base_fn('atan', n)
+def atan2(n, m):    return _base_fn('atan2', n, m)
 
-def cos(n):
-    return i(f'cos({n})')
+def abs(n):         return _base_fn('abs', n)
+def ceil(n):        return _base_fn('ceil', n)
+def exp(n):         return _base_fn('exp', n)
+def floor(n):       return _base_fn('floor', n)
+def len(n):         return _base_fn('len', n)
+def ln(n):          return _base_fn('ln', n)
+def log(n):         return _base_fn('log', n)
+def norm(v):        return _base_fn('norm', v)
+def pow(n, m):      return _base_fn('pow', n, m)
+def round(n):       return _base_fn('round', n)
+def sign(n):        return _base_fn('sign', n)
+def sqrt(n):        return _base_fn('sqrt', n)
 
-def sin(n):
-    return i(f'sin({n})')
+def min(*args):     return _base_fn('min', *args)
+def max(*args):     return _base_fn('max', *args)
 
-def tan(n):
-    return i(f'tan({n})')
+def concat(*args):  return _base_fn('concat', *args)
+def cross(*args):   return _base_fn('cross', *args)
+def lookup(*args):  return _base_fn('lookup', *args)
+def rands(*args):   return _base_fn('rands', *args)
 
-def acos(n):
-    return i(f'acos({n})')
-
-def asin(n):
-    return i(f'asin({n})')
-
-def atan(n):
-    return i(f'atan({n})')
-
-def atan2(n, m):
-    return i(f'atan2({n}, {m})')
-
-def abs_(n):
-    return i(f'abs({n})')
-
-def ceil(n):
-    return i(f'ceil({n})')
-
-def concat(*args):
-    parameters = _convert(args)
-    return i(f'concat({parameters})')
-
-def cross(*args):
-    parameters = _convert(args)
-    return i(f'cross({parameters})')
-
-def exp(n):
-    return i(f'exp({n})')
-
-def floor(n):
-    return i(f'floor({n})')
-
-def ln(n):
-    return i(f'ln({n})')
-
-#
-def len_(n):
-
-    return i(f'len({n})')
-
-def log(n):
-    return i(f'log({n})')
-
-def lookup(*args):
-    parameters = _convert(args)
-    return i(f'lookup({parameters})')
-
-def max_(*args):
-    parameters = _convert(args)
-    return i(f'max({parameters})')
-
-def min_(*args):
-    v = _convert_vector(args)
-    return i(f'min({v})')
-
-def norm(v):
-    v = _convert_vector(v)
-    return i(f'norm({v})')
-
-def pow_(n, m):
-    return i(f'pow({n}, {m})')
-
-def rands(*args):
-    parameters = _convert(args)
-    return i(f'rands({parameters})')
-
-def round_(n):
-    return i(f'round({n})')
-
-def sign(n):
-    return i(f'sign({n})')
-
-def sqrt(n):
-    return i(f'sqrt({n})')
